@@ -13,9 +13,21 @@ public class Game2Player : MonoBehaviour
     private float lastPlatformX;
 
 
+
+    public int rainbow = 0;
+
+
     [Header("References")]
     public Rigidbody2D PlayerRigidBody;
     public GameObject Restart;
+
+    //Game2Clear
+    public GameObject clear;
+
+    //rainbow
+    public GameObject rainbow1;
+    public GameObject rainbow2;
+    public GameObject rainbow3;
 
 
     // Update is called once per frame
@@ -41,7 +53,7 @@ public class Game2Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow) && onCloud)
         {
-            PlayerRigidBody.AddForce(new Vector2(0, 2f) * JumpForce, ForceMode2D.Impulse);
+            PlayerRigidBody.AddForce(new Vector2(0, 4f) * JumpForce, ForceMode2D.Impulse);
             //transform.position = new Vector2(transform.position.x, transform.position.y + 2f);   //position 을 조작하는 것보다 힘을 줄 때 점프 동작이 더 자연스럽다. 
             onCloud = false;
             currentPlatform = null; // 점프하면 플랫폼 추적 해제
@@ -61,6 +73,43 @@ public class Game2Player : MonoBehaviour
             currentPlatform = collision.transform;
             lastPlatformX = currentPlatform.position.x; // 기준점 초기화
         }
+
+        //Game2 Clear
+        if (collision.gameObject.name == "Game2Clear" && rainbow == 3)
+        {
+            clear.SetActive(true);
+            gameObject.SetActive(false);
+        }
+        else if (collision.gameObject.name == "Game2Clear" && rainbow != 3)
+        {
+            Restart.SetActive(true);
+            gameObject.SetActive(false);
+        }
+
+
+        //무지개 충돌
+        if (collision.gameObject.CompareTag("rainbow"))
+        {
+            rainbow += 1;
+            Destroy(collision.gameObject);
+            if (rainbow == 1)
+                rainbow1.SetActive(true);
+            else if (rainbow == 2)
+                rainbow2.SetActive(true);
+            else if (rainbow == 3)
+                rainbow3.SetActive(true);
+
+        }
+
+        //장애물 충돌
+        //if (collision.gameObject.CompareTag("eagle"))
+        //{
+        //    Destroy(collision.gameObject);
+        //    Restart.SetActive(true);
+        //    gameObject.SetActive (false);
+        //}
+
+
     }
 
     void OnCollisionStay2D(Collision2D collision)
@@ -94,3 +143,4 @@ public class Game2Player : MonoBehaviour
     }
 
 }
+
