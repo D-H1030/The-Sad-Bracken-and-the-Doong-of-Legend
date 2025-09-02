@@ -21,6 +21,7 @@ public class Game2Player : MonoBehaviour
     public Rigidbody2D PlayerRigidBody;
     public GameObject Restart;
 
+
     //Game2Clear
     public GameObject clear;
 
@@ -101,13 +102,12 @@ public class Game2Player : MonoBehaviour
 
         }
 
-        //장애물 충돌
-        //if (collision.gameObject.CompareTag("eagle"))
-        //{
-        //    Destroy(collision.gameObject);
-        //    Restart.SetActive(true);
-        //    gameObject.SetActive (false);
-        //}
+        if (collision.gameObject.CompareTag("eagle"))
+        {
+            Destroy(collision.gameObject);
+            Restart.SetActive(true);
+            gameObject.SetActive(false);
+        }
 
 
     }
@@ -119,6 +119,7 @@ public class Game2Player : MonoBehaviour
             // 구름 위에 서있는 동안 유지
             onCloud = true;
             if (currentPlatform == null)
+            {
             {
                 currentPlatform = collision.transform;
                 lastPlatformX = currentPlatform.position.x;
@@ -138,9 +139,12 @@ public class Game2Player : MonoBehaviour
 
     void Die()
     {
-        if (transform.position.y < -12)
+        if (gameObject.transform.position.y < -12)
+        {
             Restart.SetActive(true);
+            gameObject.SetActive(false);
+        }
+
     }
 
 }
-
